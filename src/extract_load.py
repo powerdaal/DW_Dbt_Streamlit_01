@@ -23,12 +23,14 @@ DB_SCHEMA=os.getenv('DB_SCHEMA_PROD')
 DATABASE_URL=f'postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 engine=create_engine(DATABASE_URL)
 
+# pegar a cotacao dos meus ativos
 def buscar_dados_commodities(simbolo,periodo='5d',intervalo='1d'):
   ticker=yf.Ticker(simbolo)
   dados=ticker.history(period=periodo,interval=intervalo)[['Close']]
   dados['simbolo']=simbolo
   return dados
 
+# concatenar os meus ativos
 def buscar_todos_dados_commodities(commodities):
   todos_dados=[]
   for simbolo in commodities:
@@ -37,6 +39,7 @@ def buscar_todos_dados_commodities(commodities):
 
   return pd.concat(todos_dados)
 
+# salvar no banco de dados
 def salva_no_postgres(df,schema='public'):
   df.to_sql('commodities',engine,if_exists='replace',index=True,index_label='Date',schema=schema)
 
@@ -44,8 +47,7 @@ if __name__=="__main__":
   dados_concatenados=buscar_todos_dados_commodities(commodities)
   print(dados_concatenados[dados_concatenados.simbolo=='SI=F'])
   salva_no_postgres(dados_concatenados,schema='public')
-# pegar a cotacao dos meus ativos
 
-# concatenar os meus ativos
 
-# salvar no banco de dados
+
+
