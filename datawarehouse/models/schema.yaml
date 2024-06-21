@@ -1,0 +1,28 @@
+versions: 2
+
+sources :
+  - name: bix
+    database: bix
+    schema: public
+    tables:
+    - name: commodities
+      description: "Tabela com informações da commodities"
+      columns:
+      - name: Date
+        description: "Data da observação"
+      - name: Close
+        description: "Preço de fechamento"
+      - name: simbolo
+        description: "simbolo da commodity"
+
+    - name: movimentacao_commodities
+      description: "Tabela seed"
+      columns:
+        - name: date
+          description: "Data da transação"
+        - name: symbol
+          description: "Símbolo da commodity"
+        - name: action
+          description: "Tipo de transação (buy/sell)"
+        - name: quantity
+          description: "Quantidade transacionada"
